@@ -1,26 +1,23 @@
-***** Deploy on the D02 EVB Board *****
+***** Deploy Estuary to D02 Board *****
 
 1. Purpose
 ================
 
-  This document describes how to build some files by Estuary tools v1.0, and
-  also record the process of booting D02 board using those files.
+  This document describes how to create needed software componenets and deploy
+  them to D02 with Estuary.
+
+  D02 board is the community board made with Hisilicon P660 SoC. It can support
+  maximum 2 SoCs. But many of them which is using by the community if 1 SoC
+  version.
 
 
 2. Preparative
 ================
 
-* Build FTP server in local host 
+* Setup FTP server in local host 
 
-  We need to build FTP server in local host to communicate with P660 board
-  whatever the system of local host is Windows or Ubuntu. For Ubuntu system it
-  can download, compile and burn codes directly, but for Windows system it needs
-  another server which is linux to compile source codes at first, and then
-  transfer it to local host. 
-
-  If local host system is Windows, what we should do is to set names and
-  passwords of user, and directory of sharing files after installing software
-  wftp32.  
+  You will need to set up a FTP server in local host for the board to download the
+  software components.
 
 
 3. Deploying

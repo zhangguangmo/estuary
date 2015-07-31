@@ -1,16 +1,26 @@
-******  Estuary release 1.0 ******
+******  Estuary release 1.1 ******
 
-These are the release notes for the Estuary version 1.0. Read them carefully,
+These are the release notes for the Estuary version 1.1. Read them carefully,
 as they tell you what this is all about, explain how to get, build, and run it.
 
 
 1. Introduction 
 =================
 
-  Estuary is a development version of the whole software solution which target
-  is the ICT market. It is a long term solution and focus on the combination
-  of the high level components. And It is expected to be rebased from the
-  newest version of the community quickly.
+  Estuary is a reference distribution for ICT domain mainly for ARM SoC. It is
+  not a new distribution to compete with the other distribution. It selects the
+  other distribution (also making change to it) and componenets to form a
+  "solution" for the ICT domain.  So the users can get a ready-to-go software
+  stack to start their business for ARM ICT solution.
+
+  The maintianer team of Estuary try to add more distributions, needed
+  components, and supported ICT hardware to the loop as many as possible. We
+  also encourage user to send us patches to stengthen the solution on this
+  market domain. All the diff between Estuary and its upstream branches will be
+  intended to be pushed back. the maintainer team hope your don't need Estuary
+  but just simplely take advantage of the upstream solution of Estuary. Estuary
+  play the role to represent the gap between the the ideal ICT software stack
+  and the current reality.
 
 
 2. Components
@@ -68,9 +78,9 @@ as they tell you what this is all about, explain how to get, build, and run it.
   Debian:
   http://people.debian.org/~wookey/bootstrap/rootfs/debian-unstable-arm64.tar.gz
   Ubuntu:
-  http://cdimage.ubuntu.com/ubuntu-core/releases/14.04/release/ubuntu-core-14.04-core-arm64.tar.gz
+  http://snapshots.linaro.org/ubuntu/images/developer-arm64/latest/
   OpenSuse:
-  http://ftp.kaist.ac.kr/opensuse/ports/aarch64/distribution/13.1/appliances/openSUSE-13.1-ARM-JeOS-vexpress64.aarch64-1.12.1-Build35.2.raw.xz
+  http://download.opensuse.org/ports/aarch64/distribution/13.1/appliances/ 
   Fedora:
   http://dmarlin.fedorapeople.org/fedora-arm/aarch64/F21-20140407-foundation-v8.tar.xz
 
@@ -119,7 +129,7 @@ as they tell you what this is all about, explain how to get, build, and run it.
 	$cd WORKDIR
 
   Download the whole project resource by following commands:
- 	$repo init -u https://github.com/hisilicon/estuary.git -b estuary-v1.0 --no-repo-verify
+ 	$repo init -u https://github.com/hisilicon/estuary.git -b estuary-v1.1 --no-repo-verify
   If you used SVN before, since here, you can disconnect it so that you can get
   a better download speed. Then:
  	$repo sync
@@ -158,8 +168,13 @@ as they tell you what this is all about, explain how to get, build, and run it.
   About the technical support, you can contact with chenxiang66@hisilicon.com.
   About how to apply to use our device boards, please contact with huangdaode@hisilicon.com.
 
-7. TODO
+7.Changes compared with last version
+    Add the support for xge in kernel
+    Add the support for pcie in kernel
+    Update the latest version of binary file 
+
+8. TODO
 ================
   Further more platforms will be supported in the esturay.
   More detail information about estuary, please refer to
-  http://hislicon.github.com
+  http://hisilicon.github.com
