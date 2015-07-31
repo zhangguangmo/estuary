@@ -1,6 +1,6 @@
-******  Estuary release 1.1 ******
+******  Estuary release 1.0 ******
 
-These are the release notes for the Estuary version 1.1. Read them carefully,
+These are the release notes for the Estuary version 1.0. Read them carefully,
 as they tell you what this is all about, explain how to get, build, and run it.
 
 
@@ -68,9 +68,9 @@ as they tell you what this is all about, explain how to get, build, and run it.
   Debian:
   http://people.debian.org/~wookey/bootstrap/rootfs/debian-unstable-arm64.tar.gz
   Ubuntu:
-  http://snapshots.linaro.org/ubuntu/images/developer-arm64/latest/
+  http://cdimage.ubuntu.com/ubuntu-core/releases/14.04/release/ubuntu-core-14.04-core-arm64.tar.gz
   OpenSuse:
-  http://download.opensuse.org/ports/aarch64/distribution/13.1/appliances/ 
+  http://ftp.kaist.ac.kr/opensuse/ports/aarch64/distribution/13.1/appliances/openSUSE-13.1-ARM-JeOS-vexpress64.aarch64-1.12.1-Build35.2.raw.xz
   Fedora:
   http://dmarlin.fedorapeople.org/fedora-arm/aarch64/F21-20140407-foundation-v8.tar.xz
 
@@ -103,21 +103,26 @@ as they tell you what this is all about, explain how to get, build, and run it.
   these questions.
 
  4.1 Preparation
-  You need download repo by following commands:
+  Firstly, you need to make sure you can access google website, e.g. you need
+  make sure you can ping gerrit.googlesource.com. If you can not ping it, maybe
+  you need try it again based on a special VPN or some thing like that.
+
+  Secondly, you need download repo by following commands:
 	$mkdir -p ~/bin
-	$curl "https://android.git.linaro.org/gitweb?p=tools/repo.git;a=blob_plain;f=repo;hb=refs/heads/stable" > ~/bin/repo
+	$curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 	$chmod a+x ~/bin/repo
 	$export PATH=~/bin:$PATH
 
  4.2 Fetch it
   Create a work directory by following commands:
-	$mkdir workdir
-	$cd workdir
+	$mkdir WORKDIR
+	$cd WORKDIR
 
   Download the whole project resource by following commands:
-  	$repo init -u https://github.com/hisilicon/estuary.git -b estuary-v1.1 --no-repo-verify --repo-url=git://android.git.linaro.org/tools/repo
+ 	$repo init -u https://github.com/hisilicon/estuary.git -b estuary-v1.0 --no-repo-verify
+  If you used SVN before, since here, you can disconnect it so that you can get
+  a better download speed. Then:
  	$repo sync
-	If it fails during repo sync, you can just try to do 'repo sync' again.
 
   Continue to download the toolchains and a variety of distributions by:
 	$./estuary/init.sh
@@ -153,12 +158,7 @@ as they tell you what this is all about, explain how to get, build, and run it.
   About the technical support, you can contact with chenxiang66@hisilicon.com.
   About how to apply to use our device boards, please contact with huangdaode@hisilicon.com.
 
-7.Changes compared with last version
-    Add the support for xge in kernel
-    Add the support for pcie in kernel
-    Update the latest version of binary file 
-
-8. TODO
+7. TODO
 ================
   Further more platforms will be supported in the esturay.
   More detail information about estuary, please refer to

@@ -6,11 +6,6 @@ distros_evb=(OpenEmbedded)
 distros_d02=(OpenEmbedded Ubuntu OpenSuse Fedora)
 platforms=(QEMU D01 EVB D02)
 
-PATH_OPENSUSE_D02=http://download.opensuse.org/ports/aarch64/distribution/13.1/appliances/openSUSE-13.1-ARM-JeOS.aarch64-rootfs.aarch64-1.12.1-Build37.1.tbz
-PATH_UBUNTU_D02=http://snapshots.linaro.org/ubuntu/images/developer-arm64/latest/linaro-utopic-developer-20150410-92.tar.gz
-PATH_OPENSUSE_D01=uhttp://download.opensuse.org/ports/armv7hl/distribution/13.1/appliances/openSUSE-13.1-ARM-JeOS.armv7-rootfs.armv7l-1.12.1-Build37.1.tbz
-PATH_UBUNTU_D01=http://releases.linaro.org/latest/ubuntu/utopic-images/server/linaro-utopic-server-20150220-698.tar.gz
-
 usage()
 {
 	echo "usage:"
@@ -147,7 +142,7 @@ if [ x"$PLATFORM" = x"D02" -o x"$PLATFORM" = x"QEMU" ] ; then
 	case $DISTRO in
 		"OpenSuse" )
 			if [ ! -e ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tbz ] ; then
-				wget $PATH_OPENSUSE_D02 
+				wget http://download.opensuse.org/ports/aarch64/distribution/13.1/appliances/openSUSE-13.1-ARM-JeOS.aarch64-rootfs.aarch64-1.12.1-Build37.1.tbz 
 				chmod 777 openSUSE-13.1-ARM-JeOS.aarch64-rootfs.aarch64-1.12.1-Build37.1.tbz
 				mv openSUSE-13.1-ARM-JeOS.aarch64-rootfs.aarch64-1.12.1-Build37.1.tbz ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tbz
 			fi
@@ -155,7 +150,7 @@ if [ x"$PLATFORM" = x"D02" -o x"$PLATFORM" = x"QEMU" ] ; then
 		"Ubuntu" )
 			if [ ! -e ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tar.gz ] ; then
 				echo "$DISTRO"_"$PLATFORM".tar.gz
-				curl $PATH_UBUNTU_D02 > ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tar.gz
+				curl http://snapshots.linaro.org/ubuntu/images/developer-arm64/latest/linaro-utopic-developer-20150309-90.tar.gz > ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tar.gz
 			fi
 			;;	
 	esac
@@ -164,12 +159,12 @@ if [ x"$PLATFORM" = x"D01" ] ; then
 	case $DISTRO in
 		"OpenSuse" )
 			if [ ! -e ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tbz ] ; then
-				curl $PATH_OPENSUSE_D01 > ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tbz
+				curl http://download.opensuse.org/ports/armv7hl/distribution/13.1/appliances/openSUSE-13.1-ARM-JeOS.armv7-rootfs.armv7l-1.12.1-Build37.1.tbz > ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tbz
 			fi
 			;;
 		"Ubuntu" )
 			if [ ! -e ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tar.gz ] ; then
-				curl $PATH_UBUNTU_D01 > ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tar.gz	
+				curl http://releases.linaro.org/latest/ubuntu/utopic-images/server/linaro-utopic-server-20150220-698.tar.gz > ./$DISTRO_DIR/"$DISTRO"_"$PLATFORM".tar.gz	
 			fi
 			;;	
 	esac
@@ -399,6 +394,49 @@ if [ x"EVB" = x"$PLATFORM" ] || [ x"D02" = x"$PLATFORM" ] || [ x"D01" = x"$PLATF
 	image=`ls "./distro/" | grep -E "^$DISTRO*" | grep -E "$PLATFORM"`
 	fs_file=`pwd`/build/$PLATFORM/distro/$DISTRO
 	echo $fs_file
+#	if [ $? -ne 0 ]; then
+#		fs_file=`pwd`/distro/$DISTRO/`ls "distro/$DISTRO" | grep -vE "armhfp|armv7l|arm32"`
+#		echo "uncompress the distribution($DISTRO) ......"
+#		cd $distro_dir
+#		case ${fs_file##*.} in
+#			gz)
+#				cp $fs_file ./
+#				gunzip ${fs_file##*/} 
+#				;;
+#			xz)
+#				cp $fs_file ./
+#				xz -d ${fs_file##*/}
+#				;;
+#			*)
+#				echo "error suffix of the distro"
+#				exit 1
+#				;;
+#		esac
+#		image=`ls *.img 2>/dev/null`
+#		if [ x"" = x"$image" ]; then
+#			image=`ls *.raw`
+#		fi
+#		cd -
+#	fi
+	
+#	pushd $distro_dir
+#	# make the file system
+#	output=`sudo kpartx -av $image`
+#	partition=`echo "$output" | sed -n '/add map loop*/h; ${ x; p; }' | awk '{print $3}'`
+#	mkdir ./tmp
+#	if [ x"" = x"$partition" ] ; then
+#		echo "Cancel: sudo mount $image ./tmp"
+#	else
+#		sudo mount /dev/mapper/$partition ./tmp
+#		pushd ./tmp
+#		sudo mv ./sbin/init ./ 2>/dev/null
+#		sudo find . | sudo cpio --quiet -H newc -o | gzip -9 -n > ../filesystem.cpio.gz
+#		popd
+#		sudo umount ./tmp
+#	fi
+#	rm -rf ./tmp
+#	sudo kpartx -d $image
+#	popd
    	echo "uncompress the distribution($DISTRO) ......"
 	if [ x"${image##*.}" = x"bz2" ] ; then
 		TEMP=${image%.*}
@@ -439,6 +477,30 @@ if [ x"EVB" = x"$PLATFORM" ] || [ x"D02" = x"$PLATFORM" ] || [ x"D01" = x"$PLATF
 		echo no found suitable filesystem
 	fi
 fi
+
+#if [ x"D01" = x"$PLATFORM" ]; then
+#	image=`ls "$distro_dir" | grep -E ""`
+	
+#	if [ $? -ne 0 ]; then
+#		fs_file=`pwd`/distro/$DISTRO/`ls "distro/$DISTRO" | grep -E "armhfp|armv7l|arm32"`
+#		echo "uncompress the distribution($DISTRO) ......"
+#		cd $distro_dir
+#		case ${fs_file##*.} in
+#			gz | xz | tbz)
+#				cp $fs_file ./
+#				;;
+#			*)
+#				echo "error suffix of the distro"
+#				exit 1
+#				;;
+#		esac
+		#image=`ls *.img 2>/dev/null`
+		#if [ x"" = x"$image" ]; then
+		#	image=`ls *.raw`
+		#fi
+#		cd -
+#	fi
+#fi
 
 if [ x"QEMU" = x"$PLATFORM" ]; then
 	
